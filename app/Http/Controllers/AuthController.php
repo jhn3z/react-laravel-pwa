@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\User;
 use App\Notifications\SignupActivate;
 use Illuminate\Support\Str;
+use Laravolt\Avatar\Facade as Avatar;
+use Storage;
 
 class AuthController extends Controller
 {
@@ -37,6 +39,9 @@ class AuthController extends Controller
             'activation_token' => Str::random(60),
         ]);
         $user->save();
+
+        $avatar = Avatar::create($user->name)->getImageObject()->encode('png');
+        Storage::put('avatars/'.$user->id.'/avatar.png', (string) $avatar);
 
         $user->notify(new SignupActivate($user));
 
