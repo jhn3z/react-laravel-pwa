@@ -70688,7 +70688,9 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
       errorMessage: '',
       formSubmitting: false,
       user: {
-        name: '',
+        first_name: '',
+        last_name: '',
+        username: '',
         email: '',
         password: '',
         password_confirmation: ''
@@ -70696,8 +70698,10 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
       redirect: props.redirect
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.handleName = _this.handleName.bind(_assertThisInitialized(_this));
+    _this.handleFName = _this.handleFName.bind(_assertThisInitialized(_this));
+    _this.handleLName = _this.handleLName.bind(_assertThisInitialized(_this));
     _this.handleEmail = _this.handleEmail.bind(_assertThisInitialized(_this));
+    _this.handleUsername = _this.handleUsername.bind(_assertThisInitialized(_this));
     _this.handlePassword = _this.handlePassword.bind(_assertThisInitialized(_this));
     _this.handlePasswordConfirm = _this.handlePasswordConfirm.bind(_assertThisInitialized(_this));
     return _this;
@@ -70755,7 +70759,9 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
         if (json.data.success) {
           var _userData = {
             id: json.data.id,
-            name: json.data.name,
+            first_name: json.data.first_name,
+            last_name: json.data.last_name,
+            username: json.data.username,
             email: json.data.email,
             activation_token: json.data.activation_token
           };
@@ -70804,13 +70810,37 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
       }));
     }
   }, {
-    key: "handleName",
-    value: function handleName(e) {
+    key: "handleFName",
+    value: function handleFName(e) {
       var value = e.target.value;
       this.setState(function (prevState) {
         return {
           user: _objectSpread(_objectSpread({}, prevState.user), {}, {
             first_name: value
+          })
+        };
+      });
+    }
+  }, {
+    key: "handleLName",
+    value: function handleLName(e) {
+      var value = e.target.value;
+      this.setState(function (prevState) {
+        return {
+          user: _objectSpread(_objectSpread({}, prevState.user), {}, {
+            last_name: value
+          })
+        };
+      });
+    }
+  }, {
+    key: "handleUsername",
+    value: function handleUsername(e) {
+      var value = e.target.value;
+      this.setState(function (prevState) {
+        return {
+          user: _objectSpread(_objectSpread({}, prevState.user), {}, {
+            username: value
           })
         };
       });
@@ -70867,7 +70897,7 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "offset-xl-3 col-xl-6 offset-lg-1 col-lg-10 col-md-12 col-sm-12 col-12 "
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Create Your Account"), "// 2.7", this.state.isRegistered ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_flash_message__WEBPACK_IMPORTED_MODULE_3___default.a, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Create Your Account"), this.state.isRegistered ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_flash_message__WEBPACK_IMPORTED_MODULE_3___default.a, {
         duration: 60000,
         persistOnHover: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
@@ -70890,12 +70920,21 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        id: "name",
+        id: "first_name",
         type: "text",
-        placeholder: "Name",
+        placeholder: "First Name",
         className: "form-control",
         required: true,
-        onChange: this.handleName
+        onChange: this.handleFName
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "last_name",
+        type: "text",
+        placeholder: "Last Name",
+        className: "form-control",
+        required: true,
+        onChange: this.handleLName
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -70906,6 +70945,16 @@ var RegisterContainer = /*#__PURE__*/function (_Component) {
         className: "form-control",
         required: true,
         onChange: this.handleEmail
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "username",
+        type: "text",
+        name: "username",
+        placeholder: "Username",
+        className: "form-control",
+        required: true,
+        onChange: this.handleUsername
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -71018,6 +71067,7 @@ var Home = /*#__PURE__*/function (_Component) {
 
       if (state) {
         var AppState = JSON.parse(state);
+        console.log(AppState);
         this.setState({
           isLoggedIn: AppState.isLoggedIn,
           user: AppState.user
@@ -71037,7 +71087,7 @@ var Home = /*#__PURE__*/function (_Component) {
         scope: "row "
       }, "User Id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.user.id)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         scope: "row "
-      }, "Full Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.user.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      }, "Full Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.user.first_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         scope: "row "
       }, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.user.email)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Footer_Footer__WEBPACK_IMPORTED_MODULE_2__["default"], null));
     }
