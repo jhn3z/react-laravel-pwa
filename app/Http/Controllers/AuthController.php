@@ -46,7 +46,10 @@ class AuthController extends Controller
         $user->notify(new SignupActivate($user));
 
         return response()->json([
-            'message' => 'Registration successful !'
+            'success' => true,
+            'id' => $user->id,
+            'name' => $user->first_name,
+            'email' => $user->email,
         ], 201);
     }
   
@@ -81,6 +84,10 @@ class AuthController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
         return response()->json([
+            'success' => true,
+            'id' => $user->id,
+            'name' => $user->first_name,
+            'email' => $user->email,
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
