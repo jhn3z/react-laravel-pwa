@@ -12,7 +12,9 @@ class RegisterContainer extends Component {
       errorMessage: '',
       formSubmitting: false,
       user: {
-        name: '',
+        first_name: '',
+        last_name: '',
+        username: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -20,8 +22,10 @@ class RegisterContainer extends Component {
     redirect: props.redirect,
 };
 this.handleSubmit = this.handleSubmit.bind(this);
-this.handleName = this.handleName.bind(this);
+this.handleFName = this.handleFName.bind(this);
+this.handleLName = this.handleLName.bind(this);
 this.handleEmail = this.handleEmail.bind(this);
+this.handleUsername = this.handleUsername.bind(this);
 this.handlePassword = this.handlePassword.bind(this);
 this.handlePasswordConfirm = this.handlePasswordConfirm.bind(this);
 }
@@ -57,7 +61,9 @@ handleSubmit(e) {
       if (json.data.success) {
         let userData = {
           id: json.data.id,
-          name: json.data.name,
+          first_name: json.data.first_name,
+          last_name: json.data.last_name,
+          username: json.data.username,
           email: json.data.email,
           activation_token: json.data.activation_token,
         };
@@ -99,11 +105,28 @@ handleSubmit(e) {
    }
  }).finally(this.setState({error: ''}));
 }
-handleName(e) {
+handleFName(e) {
   let value = e.target.value;
   this.setState(prevState => ({
     user: {
       ...prevState.user, first_name: value
+    }
+  }));
+}
+handleLName(e) {
+  let value = e.target.value;
+  this.setState(prevState => ({
+    user: {
+      ...prevState.user, last_name: value
+    }
+  }));
+}
+
+handleUsername(e) {
+  let value = e.target.value;
+  this.setState(prevState => ({
+    user: {
+      ...prevState.user, username: value
     }
   }));
 }
@@ -144,7 +167,6 @@ render() {
       <div className="row">
         <div className="offset-xl-3 col-xl-6 offset-lg-1 col-lg-10 col-md-12 col-sm-12 col-12 ">
           <h2>Create Your Account</h2>
-         // 2.7
         {this.state.isRegistered ? <FlashMessage duration={60000} persistOnHover={true}>
           <h5 className={"alert alert-success"}>Registration successful, redirecting...</h5></FlashMessage> : ''}
         {this.state.error ? <FlashMessage duration={900000} persistOnHover={true}>
@@ -156,10 +178,16 @@ render() {
           </ul></FlashMessage> : ''}
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input id="name" type="text" placeholder="Name" className="form-control" required onChange={this.handleName}/>
+              <input id="first_name" type="text" placeholder="First Name" className="form-control" required onChange={this.handleFName}/>
+            </div>
+            <div className="form-group">
+              <input id="last_name" type="text" placeholder="Last Name" className="form-control" required onChange={this.handleLName}/>
             </div>
             <div className="form-group">
               <input id="email" type="email" name="email" placeholder="E-mail" className="form-control" required onChange={this.handleEmail}/>
+            </div>
+            <div className="form-group">
+              <input id="username" type="text" name="username" placeholder="Username" className="form-control" required onChange={this.handleUsername}/>
             </div>
             <div className="form-group">
               <input id="password" type="password" name="password" placeholder="Password" className="form-control" required onChange={this.handlePassword}/>

@@ -15,6 +15,7 @@ class Home extends Component {
     let state = localStorage["appState"];
     if (state) {
       let AppState = JSON.parse(state);
+      console.log(AppState);
       this.setState({ isLoggedIn: AppState.isLoggedIn, user: AppState.user });
     }
   }
@@ -32,7 +33,7 @@ render() {
               </tr>
               <tr>
                 <th scope="row ">Full Name</th>
-                <td>{this.user.name}</td>
+                <td>{this.user.first_name}</td>
               </tr>
               <tr>
                 <th scope="row ">Email</th>
