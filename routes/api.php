@@ -23,6 +23,8 @@ Route::group(['prefix' => 'auth'], function () {
     ], function() {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
+        Route::post('postnew', 'PostController@uploadPosts');
+        Route::get('timeline', 'PostController@getTimeline');
     });
 });
 

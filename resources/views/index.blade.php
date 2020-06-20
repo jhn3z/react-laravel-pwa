@@ -65,6 +65,9 @@
                 margin-bottom: 30px;
             }
         </style>
+        <script type="text/javascript">
+            var csrf_token = '<?php echo csrf_token(); ?>'; 
+        ></script>
     </head>
     <body>
         <div id="index"></div>
