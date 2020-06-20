@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,5 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 Route::get('/', function () {
     return redirect('/login');
 });
+
+
 
 Route::view('/{path?}', 'index');

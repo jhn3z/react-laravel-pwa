@@ -3,6 +3,7 @@ import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
 import Home from './components/Home/Home';
 import Login from './views/Login/Login';
 import Register from './views/Register/Register';
+import AccountVerified from './views/Register/AccountVerified';
 import NotFound from './views/NotFound/NotFound'
 // User is LoggedIn
 import PrivateRoute from './PrivateRoute'
@@ -14,6 +15,8 @@ const Main = props => (
   {/*User will LogIn*/}
   <Route path='/login' component={Login}/>
   <Route path='/register' component={Register}/>
+  <Route path='/verified' component={AccountVerified}/>
+
   {/* User is LoggedIn*/}
   <PrivateRoute path='/dashboard' component={Dashboard}/>
   {/*Page Not Found*/}

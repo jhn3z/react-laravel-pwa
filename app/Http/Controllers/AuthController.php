@@ -126,6 +126,9 @@ class AuthController extends Controller
      */
     public function signupActivate($token)
     {
+        if(empty($token)){
+            return redirect('/');
+        }
         $user = User::where('activation_token', $token)->first();
         if (!$user) {
             return response()->json([
@@ -135,6 +138,6 @@ class AuthController extends Controller
         $user->active = true;
         $user->activation_token = '';
         $user->save();
-        return $user;
+        return redirect('/verified');
     }
 }
