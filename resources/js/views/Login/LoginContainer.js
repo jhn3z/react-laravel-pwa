@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {Link, Redirect, withRouter} from 'react-router-dom';
 import FlashMessage from 'react-flash-message';
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
+
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -106,32 +109,41 @@ render() {
   const { state = {} } = this.state.redirect;
   const { error } = state;
   return (
-    <div className="container">
-      <div className="row">
-        <div className="offset-xl-3 col-xl-6 offset-lg-1 col-lg-10 col-md-12 col-sm-12 col-12 ">
-          <h2 className="text-center mb30">Log In To Your Account</h2>
-          {this.state.isLoggedIn ? <FlashMessage duration={60000} persistOnHover={true}>
-          <h5 className={"alert alert-success"}>Login successful, redirecting...</h5></FlashMessage> : ''}
-          {this.state.error ? <FlashMessage duration={100000} persistOnHover={true}>
-          <h5 className={"alert alert-danger"}>Error: {this.state.error}</h5></FlashMessage> : ''}
-          {error && !this.state.isLoggedIn ? <FlashMessage duration={100000} persistOnHover={true}>
-          <h5 className={"alert alert-danger"}>Error: {error}</h5></FlashMessage> : ''}
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <input id="email" type="email" name="email" placeholder="E-mail" className="form-control" required onChange={this.handleEmail}/>
+    <div className="main">
+        <section className="sign-in">
+            <div className="container">
+                <div className="signin-content">
+                    <div className="signin-image">
+                        <figure><img src=
+                        "assets/img/signin-image.png" alt="sing up image"></img></figure>
+                        <p>Don't have an account ? </p><a href="/register" className="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div className="signin-form">
+                        <h2 className="form-title">Sign in</h2>
+                        {this.state.isLoggedIn ? <FlashMessage duration={60000} persistOnHover={true}>
+                        <h5 className={"alert alert-success"}>Login successful, redirecting...</h5></FlashMessage> : ''}
+                        {this.state.error ? <FlashMessage duration={100000} persistOnHover={true}>
+                        <h5 className={"alert alert-danger"}> {this.state.error}</h5></FlashMessage> : ''}
+                        {error && !this.state.isLoggedIn ? <FlashMessage duration={100000} persistOnHover={true}>
+                        <h5 className={"alert alert-danger"}> {error}</h5></FlashMessage> : ''}
+                        <form onSubmit={this.handleSubmit} className="register-form" id="login-form">
+                            <div className="form-group">
+                                <label for="email"><i className="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Email" autocomplete="off" onChange={this.handleEmail} />
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="your_pass" id="your_pass" placeholder="Password" autocomplete="off" onChange={this.handlePassword} />
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit"  disabled={this.state.formSubmitting} name="signin" id="signin" class="form-submit btn btn-primary btn-lg btn-block" value={this.state.formSubmitting ? "Logging You In..." : "Log In"} />
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div className="form-group">
-              <input id="password" type="password" name="password" placeholder="Password" className="form-control" required onChange={this.handlePassword}/>
-            </div>
-           <button disabled={this.state.formSubmitting} type="submit" name="singlebutton" className="btn btn-default btn-lg  btn-block mb10"> {this.state.formSubmitting ? "Logging You In..." : "Log In"} </button>
-           </form>
-        </div>
-        <p className="text-white">Don't have an account? <Link to="/register" className="text-yellow"> Register</Link>
-          <span className="pull-right">
-            <Link to="/" className="text-white">Back to Index</Link>
-          </span>
-        </p>
-      </div>
+        </section>
     </div>
     )
   }

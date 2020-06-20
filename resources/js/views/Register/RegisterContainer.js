@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import FlashMessage from 'react-flash-message';
+
 class RegisterContainer extends Component {
   // 2.1
   constructor(props) {
@@ -163,46 +164,61 @@ render() {
     arr.push(value)
   ));
   return (
-    <div className="container">
-      <div className="row">
-        <div className="offset-xl-3 col-xl-6 offset-lg-1 col-lg-10 col-md-12 col-sm-12 col-12 ">
-          <h2>Create Your Account</h2>
-        {this.state.isRegistered ? <FlashMessage duration={60000} persistOnHover={true}>
-          <h5 className={"alert alert-success"}>Registration successful, redirecting...</h5></FlashMessage> : ''}
-        {this.state.error ? <FlashMessage duration={900000} persistOnHover={true}>
-          <h5 className={"alert alert-danger"}>Error: {this.state.error}</h5>
-          <ul>
-            {arr.map((item, i) => (
-              <li key={i}><h5 style={{color: 'red'}}>{item}</h5></li>
-             ))}
-          </ul></FlashMessage> : ''}
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <input id="first_name" type="text" placeholder="First Name" className="form-control" required onChange={this.handleFName}/>
+      <div class="main">
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Create your account</h2>
+                        {this.state.isRegistered ? <FlashMessage duration={60000} persistOnHover={true}>
+                        <h5 className={"alert alert-success"}>Registration successful. </h5>
+                        <p>Please check your registered email for account verification.</p>
+                        </FlashMessage> : ''}
+                      {this.state.error ? <FlashMessage duration={900000} persistOnHover={true}>
+                        <h5 className={"alert alert-danger"}>{this.state.error}</h5>
+                        </FlashMessage> : ''}
+                        <form onSubmit={this.handleSubmit} class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="first_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="first_name" id="name" placeholder="Your First Name" autocomplete="off" onChange={this.handleFName}/>
+                            <p className="errorMsg">{ this.state.errorMessage.first_name }</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="last_name" id="last_name" placeholder="Your Last Name" autocomplete="off" onChange={this.handleLName}/>
+                            <p className="errorMsg">{ this.state.errorMessage.last_name }</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email" autocomplete="off" onChange={this.handleEmail} />
+                            <p className="errorMsg">{ this.state.errorMessage.email }</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="username"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="username" id="username" placeholder="Your Username" autocomplete="off" onChange={this.handleUsername} />
+                            <p className="errorMsg">{ this.state.errorMessage.username }</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="pass" placeholder="Password" autocomplete="off" onChange={this.handlePassword} />
+                            <p className="errorMsg">{ this.state.errorMessage.password }</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_pass" id="re_pass" placeholder="Confirm your password" autocomplete="off" onChange={this.handlePasswordConfirm} />
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" disabled={this.state.formSubmitting ? "disabled" : ""}  id="signup" class="form-submit btn btn-primary btn-lg btn-block" value="Register"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="assets/img/signup.gif" alt="sing up image"></img></figure>
+                        <p><a href="/login">I am already a member</a></p>
+                    </div>
+                </div>
             </div>
-            <div className="form-group">
-              <input id="last_name" type="text" placeholder="Last Name" className="form-control" required onChange={this.handleLName}/>
-            </div>
-            <div className="form-group">
-              <input id="email" type="email" name="email" placeholder="E-mail" className="form-control" required onChange={this.handleEmail}/>
-            </div>
-            <div className="form-group">
-              <input id="username" type="text" name="username" placeholder="Username" className="form-control" required onChange={this.handleUsername}/>
-            </div>
-            <div className="form-group">
-              <input id="password" type="password" name="password" placeholder="Password" className="form-control" required onChange={this.handlePassword}/>
-            </div>
-            <div className="form-group">
-              <input id="password_confirm" type="password" name="password_confirm" placeholder="Confirm Password" className="form-control" required onChange={this.handlePasswordConfirm} />
-            </div>
-            <button type="submit" name="singlebutton" className="btn btn-default btn-lg  btn-block mb10" disabled={this.state.formSubmitting ? "disabled" : ""}>Create Account</button>
-          </form>
-          <p className="text-white">Already have an account?
-            <Link to="/login" className="text-yellow"> Log In</Link>
-            <span className="pull-right"><Link to="/" className="text-white">Back to Home</Link></span>
-        </p>
-        </div>
-      </div>
+        </section>
     </div>
     )
   }

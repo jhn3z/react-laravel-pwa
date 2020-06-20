@@ -69,13 +69,13 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
             'remember_me' => 'boolean'
-        ]);
+        ]); 
         $credentials = request(['email', 'password']);
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
         if(!Auth::attempt($credentials))
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Your credentials are invalid.'
             ], 401);
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
