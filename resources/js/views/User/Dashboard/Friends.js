@@ -113,8 +113,9 @@ export default class Friends extends Component {
                       </div>
                       <div class="col-sm-7">
                           <div class="card-body">
+                              <h3>{friend.username}</h3>
                               <h5 class="card-title">{friend.name}</h5>
-                              <p class="card-text">{friend.username}</p>
+                              <p class="card-text">{friend.bio}</p>
                           </div>
                       </div>
                   </div>

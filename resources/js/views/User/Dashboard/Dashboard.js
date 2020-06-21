@@ -72,6 +72,7 @@ export default function ScrollableTabsButtonPrevent() {
 
   return (
     <div className={classes.root}>
+      <div className="photos mr-auto ml-auto col-xs-12 col-sm-12 col-md-8 col-lg-8">
       <AppBar position="static">
         <Tabs
           value={value}
@@ -99,6 +100,7 @@ export default function ScrollableTabsButtonPrevent() {
       <TabPanel value={value} index={3}>
           <Logout />
       </TabPanel>
+      </div>
     </div>
   );
 }
