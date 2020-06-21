@@ -27,13 +27,15 @@ class AuthController extends Controller
             'last_name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'username' => 'required|string|unique:users',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            'bio' => 'required|string|min:50|max:255',
         ]);
 
         $user = new User([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
+            'bio' => $request->bio,
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'activation_token' => Str::random(60),
@@ -147,8 +149,9 @@ class AuthController extends Controller
      * @return [json] users
      */
     public function getAllUsers(Request $request)
-    {
-        $itemsPaginated =  User::orderBy('updated_at','desc')->paginate(2);
+    {   
+        $user = $request->user();
+        $itemsPaginated =  User::where('id','!=',$user['id'])->orderBy('updated_at','desc')->paginate(2);
         $itemsTransformed = $itemsPaginated
             ->getCollection()
             ->map(function($item) {
@@ -156,6 +159,7 @@ class AuthController extends Controller
                     'id' => $item->id,
                     'username' => '@'.$item->username,
                     'name' => $item->first_name.' '.$item->last_name,
+                    'bio' => $item->bio,
                     'modified_at' => $item->modified_at,
                     'created_at' => $item->created_at->format('d-m-Y h:i'),
                     'file' => 'assets/avatar/'.'boy-avatar.png',

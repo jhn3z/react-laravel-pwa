@@ -17,6 +17,7 @@ class RegisterContainer extends Component {
         last_name: '',
         username: '',
         email: '',
+        bio: '',
         password: '',
         password_confirmation: '',
     },
@@ -26,6 +27,7 @@ this.handleSubmit = this.handleSubmit.bind(this);
 this.handleFName = this.handleFName.bind(this);
 this.handleLName = this.handleLName.bind(this);
 this.handleEmail = this.handleEmail.bind(this);
+this.handleBio = this.handleBio.bind(this);
 this.handleUsername = this.handleUsername.bind(this);
 this.handlePassword = this.handlePassword.bind(this);
 this.handlePasswordConfirm = this.handlePasswordConfirm.bind(this);
@@ -65,6 +67,7 @@ handleSubmit(e) {
           first_name: json.data.first_name,
           last_name: json.data.last_name,
           username: json.data.username,
+          bio: json.data.bio,
           email: json.data.email,
           activation_token: json.data.activation_token,
         };
@@ -140,6 +143,14 @@ handleEmail(e) {
     }
   }));
 }
+handleBio(e) {
+  let value = e.target.value;
+  this.setState(prevState => ({
+    user: {
+      ...prevState.user, bio: value
+    }
+  }));
+}
 handlePassword(e) {
   let value = e.target.value;
   this.setState(prevState => ({
@@ -197,6 +208,11 @@ render() {
                                 <label for="username"><i class="zmdi zmdi-email"></i></label>
                                 <input type="text" name="username" id="username" placeholder="Your Username" autocomplete="off" onChange={this.handleUsername} />
                             <p className="errorMsg">{ this.state.errorMessage.username }</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="bio"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="bio" id="bio" placeholder="About yourself" autocomplete="off" onChange={this.handleBio} />
+                            <p className="errorMsg">{ this.state.errorMessage.bio }</p>
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>

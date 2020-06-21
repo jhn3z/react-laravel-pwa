@@ -23,7 +23,7 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'file' => 'required',
-            'caption' => 'required|string',
+            'caption' => 'required|string|min:20|max:255',
             'hashtags' => 'required|string',
         ]);
         if($request->get('file'))
