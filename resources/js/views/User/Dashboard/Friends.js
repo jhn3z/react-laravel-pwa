@@ -35,7 +35,6 @@ export default class Friends extends Component {
     let state = localStorage["appState"];
     if (state) {
       let AppState = JSON.parse(state);
-      console.log(AppState);
       this.setState({ isLoggedIn: AppState.isLoggedIn, user: AppState.user });
     }
   }
@@ -56,7 +55,6 @@ export default class Friends extends Component {
         // register scroll event
         this.registerScrollEvent();
         var userData = this.state.user;
-        console.log(userData);
         const headers = {
           'Authorization': 'Bearer '+userData.access_token,
         }

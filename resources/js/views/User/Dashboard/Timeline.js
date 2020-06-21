@@ -35,7 +35,6 @@ export default class Timeline extends Component {
     let state = localStorage["appState"];
     if (state) {
       let AppState = JSON.parse(state);
-      console.log(AppState);
       this.setState({ isLoggedIn: AppState.isLoggedIn, user: AppState.user });
     }
   }
@@ -56,7 +55,6 @@ export default class Timeline extends Component {
         // register scroll event
         this.registerScrollEvent();
         var userData = this.state.user;
-        console.log(userData);
         const headers = {
           'Authorization': 'Bearer '+userData.access_token,
         }
@@ -64,7 +62,6 @@ export default class Timeline extends Component {
         axios.get(this.state.next_page,  {
           headers: headers
         }).then((response) => {
-          console.log('timeline'+response.data);
           const paginator = response.data,
           timeline = paginator.data;
 

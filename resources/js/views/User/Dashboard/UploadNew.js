@@ -43,7 +43,6 @@ componentWillMount() {
   let state = localStorage["appState"];
   if (state) {
     let AppState = JSON.parse(state);
-    console.log(AppState);
     this.setState({ isLoggedIn: AppState.isLoggedIn, user: AppState.user });
   }
 }
@@ -119,7 +118,6 @@ handleChange(e) {
     this.setState({
       selectedFile: e.target.files[0],
     })
-    console.log(this.state.selectedFile);
   }
 
 handleCaption(e) {
@@ -140,10 +138,8 @@ fileUpload(image){
   if (state) {
     let AppState = JSON.parse(state);
   }
-  console.log('user:'+JSON.parse(this.AppState.user));
 
   const formData = {file: this.state.files, caption: this.state.caption, hashtags: this.state.hashtags }
-  console.log(formData);
   return  post(url, formData)
   .then(response => console.log('backend :'+response))
 }
@@ -151,7 +147,7 @@ fileUpload(image){
 render()
 {
   return(
-    
+    <div className="photos mr-auto ml-auto col-xs-12 col-sm-12 col-md-8 col-lg-8">
     <form enctype="multipart/form-data" onSubmit={this.onFormSubmit}>
       {this.state.isPosted ? <FlashMessage duration={60000} persistOnHover={true}>
       <h5 className={"alert alert-success"}>Post has been shared successfully. </h5>
@@ -160,9 +156,9 @@ render()
       <h5 className={"alert alert-danger"}>{this.state.error}</h5>
       </FlashMessage> : ''}
     <h3>New Post</h3><hr/>
-    <TextField id="standard-basic" label="Caption ie. My new post" onChange={this.handleCaption} /><br/><br/>
-    <TextField id="standard-basic" label="Hastags ie. fun, enjoy" onChange={this.handleHashtags} /><br/><br/>
-    <div class="d-flex justify-content-center">
+    <TextField className="col-lg-12" id="standard-basic" label="Caption ie. My new post" onChange={this.handleCaption} /><br/><br/>
+    <TextField className="col-lg-12" id="standard-basic" label="Hastags ie. fun, enjoy" onChange={this.handleHashtags} /><br/><br/>
+    <div class="d-flex justify-content-center col-lg-12">
       <div class="btn btn-mdb-color btn-rounded float-left">
         <span>Choose file</span>
         <input type="file" onChange={this.onChange} />
@@ -172,6 +168,7 @@ render()
     <input type="submit"  disabled={this.state.formSubmitting} name="signin" id="signin" className="form-submit btn btn-primary btn-lg btn-block" value={this.state.formSubmitting ? "Posting..." : "Share my post"} />
     </div>
     </form>
+    </div>
     )
 }
 }
