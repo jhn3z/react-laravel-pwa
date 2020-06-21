@@ -49,15 +49,59 @@ class PostController extends Controller
         ], 201);
     }
 
-
+     /**
+     * Get updated Timeline data
+     *
+     * @return [json] timeline object
+     */
     public function getTimeline(Request $request){
-        $user = $request->user();
-        return response()->json([
-            'success' => true,
-            'id' => $user->id,
-            'name' => $user->first_name,
-            'email' => $user->email,
-        ], 201);
+        $itemsPaginated =  Posts::orderBy('updated_at','desc')->paginate(2);
+        $itemsTransformed = $itemsPaginated
+            ->getCollection()
+            ->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'username' => $item->username,
+                    'caption' => $item->caption,
+                    'hashtags' => $this->getHashtags($item->hashtags),
+                    'modified_at' => $item->modified_at,
+                    'created_at' => $item->created_at->format('d-m-Y h:i'),
+                    'file' => '/images/'.$item->filename,
+                ];
+        })->toArray();
+
+        $itemsTransformedAndPaginated = new \Illuminate\Pagination\LengthAwarePaginator(
+            $itemsTransformed,
+            $itemsPaginated->total(),
+            $itemsPaginated->perPage(),
+            $itemsPaginated->currentPage(), [
+                'path' => \Request::url(),
+                'query' => [
+                    'page' => $itemsPaginated->currentPage()
+                ]
+            ]
+        );
+
+        return response()->json($itemsTransformedAndPaginated);
     }
+
+
+    /**
+     * Get formatted hashtags for timeline
+     *
+     * @return [string] hashtags 
+     */
+    protected function getHashtags($hashtag){
+        $hashtag = preg_split ("/\,/", $hashtag); 
+        $hashtagsToReturn = null;
+        foreach ($hashtag as $key => $value) {
+            $hashtagsToReturn .= '#'.preg_replace('/[^A-Za-z0-9]/', '', $value).' ';
+        }
+
+        return $hashtagsToReturn;
+    }
+
+
+
 
 }
