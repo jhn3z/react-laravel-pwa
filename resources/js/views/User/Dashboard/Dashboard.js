@@ -19,8 +19,8 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import FaceIcon from '@material-ui/icons/Face';
 import Timeline from './Timeline';
 import Friends from './Friends';
-import Profile from './Profile';
 import UploadNew from './UploadNew';
+import Logout from './Logout';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -82,9 +82,8 @@ export default function ScrollableTabsButtonPrevent() {
         >
           <Tab icon={<HomeIcon />} aria-label="favorite" {...a11yProps(1)} />
           <Tab icon={<FaceIcon />} aria-label="phone" {...a11yProps(0)} />
-          <Tab icon={<PersonPinIcon />} aria-label="person" {...a11yProps(2)} />
-          <Tab icon={<AddCircleOutlineIcon />} aria-label="help" {...a11yProps(3)} />
-          <Tab icon={<PowerSettingsNewIcon />} aria-label="shopping" {...a11yProps(4)} />
+          <Tab icon={<AddCircleOutlineIcon />} aria-label="help" {...a11yProps(2)} />
+          <Tab icon={<PowerSettingsNewIcon />} aria-label="shopping" {...a11yProps(3)} />
  
         </Tabs>
       </AppBar>
@@ -95,13 +94,10 @@ export default function ScrollableTabsButtonPrevent() {
         <Friends />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Profile />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
         <UploadNew />
       </TabPanel>
-      <TabPanel value={value} index={4}>
-        Logout
+      <TabPanel value={value} index={3}>
+          <Logout />
       </TabPanel>
     </div>
   );

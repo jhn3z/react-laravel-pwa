@@ -25,7 +25,7 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => (
        pathname: "/login",
        state: {
          prevLocation: path,
-         error: "You need to login first!",
+         error: "Please login.",
        },
       }}
       />

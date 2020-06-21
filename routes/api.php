@@ -25,6 +25,7 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('user', 'AuthController@user');
         Route::post('postnew', 'PostController@uploadPosts');
         Route::get('timeline', 'PostController@getTimeline');
+        Route::get('allusers', 'AuthController@getAllUsers');
     });
 });
 

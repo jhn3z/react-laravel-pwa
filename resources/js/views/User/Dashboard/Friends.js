@@ -1,61 +1,139 @@
-import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
+import React, {Component} from 'react';
+import {Link, Redirect, withRouter} from 'react-router-dom';
+import FlashMessage from 'react-flash-message';
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    flex: '1 0 auto',
-  },
-  cover: {
-    width: 151,
-  },
-  controls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
-  },
-}));
 
-export default function MediaControlCard() {
-  const classes = useStyles();
-  const theme = useTheme();
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = css`
+display: block;
+margin: 0 auto;
+border-color: red;
+`;
 
-  return (
-    <Card className={classes.root}>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            Live From Space
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Mac Miller
-          </Typography>
-        </CardContent>
-      </div>
-      <CardMedia
-        className={classes.cover}
-        image="assets/img/sample-profile.jpeg"
-        title="Live from space album cover"
-      />
-    </Card>
-  );
-}
+
+export default class Friends extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      friends : [],
+      next_page : '/api/auth/allusers',
+      loading : false,
+      error: '',
+      isLoggedIn: false,
+      user: {},
+      isListEmpty: true,
+    }
+  }
+
+  // check if user is authenticated and storing authentication data as states if true
+  componentWillMount() {
+    let state = localStorage["appState"];
+    if (state) {
+      let AppState = JSON.parse(state);
+      console.log(AppState);
+      this.setState({ isLoggedIn: AppState.isLoggedIn, user: AppState.user });
+    }
+  }
+
+  componentDidMount(){
+    this.getTimeline();
+  }
+
+  getTimeline(){
+    if(!this.state.loading){
+
+        // Set loading state to true to
+        // avoid multiple requests on scroll
+        this.setState({
+          loading : true,
+        });
+
+        // register scroll event
+        this.registerScrollEvent();
+        var userData = this.state.user;
+        console.log(userData);
+        const headers = {
+          'Authorization': 'Bearer '+userData.access_token,
+        }
+        // make XHR request
+        axios.get(this.state.next_page,  {
+          headers: headers
+        }).then((response) => {
+          const paginator = response.data,
+          friends = paginator.data;
+
+          if(friends.length){
+                    // add new 
+                    this.setState({
+                      friends : [...this.state.friends , ...friends],
+                      next_page : paginator.next_page_url,
+                      loading: false,
+                      isListEmpty : false,
+                    });
+                  }
+
+                // remove scroll event if next_page_url is null
+                if(!paginator.next_page_url){
+                  this.removeScrollEvent();
+                }
+              });
+      }
+    }
+
+    registerScrollEvent(){
+      $(window).on('scroll', function() {
+        if($(window).scrollTop() + $(window).height() === $(document).height()) {
+          this.getTimeline();
+        }
+      }.bind(this));
+
+    }
+
+    removeScrollEvent(){
+      $(window).off('scroll');
+    }
+
+    render() {
+
+      return (
+        <div className="photos mr-auto ml-auto col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <h3>Friends</h3><hr/>
+        {
+          this.state.friends.map((friend) =>{
+            return (
+
+              <div className="col-lg-12 col-md-6 mb-4">
+              <div class="card profile-card" >
+                  <div class="row no-gutters">
+                      <div class="col-sm-5">
+                          <img class="card-img" src={friend.file} alt={friend.name} />
+                      </div>
+                      <div class="col-sm-7">
+                          <div class="card-body">
+                              <h5 class="card-title">{friend.name}</h5>
+                              <p class="card-text">{friend.username}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </div>
+              )
+            })
+          }
+          {this.state.isListEmpty ? 
+            <h3 className="card-title"> No users yet.</h3> : ''}
+            <ClipLoader
+            css={override}
+            size={50}
+            color={"#123abc"}
+            loading={this.state.loading}
+            />
+            </div>
+            );
+          }
+        }

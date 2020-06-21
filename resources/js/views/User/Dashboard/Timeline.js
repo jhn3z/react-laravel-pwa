@@ -103,6 +103,7 @@ export default class Timeline extends Component {
       
       return (
         <div className="photos mr-auto ml-auto col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <h3>Timeline</h3><hr/>
         {
           this.state.timeline.map((post) =>{
             return (
@@ -114,7 +115,7 @@ export default class Timeline extends Component {
               <h5 class="pink-text"><i class="fas fa-utensils"></i> {post.username}</h5>
               <h4 class="card-title">{post.caption}</h4>
               <p class="card-text">Posted on : {post.created_at}</p>
-              <a class="btn btn-unique">{post.hashtags}</a>
+              <span class="badge badge-light">{post.hashtags}</span>
               </div>
               </div>
               )

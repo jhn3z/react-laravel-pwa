@@ -140,4 +140,40 @@ class AuthController extends Controller
         $user->save();
         return redirect('/verified');
     }
+
+    /**
+     * Get Users / Freinds list
+     *
+     * @return [json] users
+     */
+    public function getAllUsers(Request $request)
+    {
+        $itemsPaginated =  User::orderBy('updated_at','desc')->paginate(2);
+        $itemsTransformed = $itemsPaginated
+            ->getCollection()
+            ->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'username' => '@'.$item->username,
+                    'name' => $item->first_name.' '.$item->last_name,
+                    'modified_at' => $item->modified_at,
+                    'created_at' => $item->created_at->format('d-m-Y h:i'),
+                    'file' => 'assets/avatar/'.'boy-avatar.png',
+                ];
+        })->toArray();
+
+        $itemsTransformedAndPaginated = new \Illuminate\Pagination\LengthAwarePaginator(
+            $itemsTransformed,
+            $itemsPaginated->total(),
+            $itemsPaginated->perPage(),
+            $itemsPaginated->currentPage(), [
+                'path' => \Request::url(),
+                'query' => [
+                    'page' => $itemsPaginated->currentPage()
+                ]
+            ]
+        );
+
+        return response()->json($itemsTransformedAndPaginated);
+    }
 }

@@ -61,7 +61,7 @@ class PostController extends Controller
             ->map(function($item) {
                 return [
                     'id' => $item->id,
-                    'username' => $item->username,
+                    'username' => '@'.$item->username,
                     'caption' => $item->caption,
                     'hashtags' => $this->getHashtags($item->hashtags),
                     'modified_at' => $item->modified_at,

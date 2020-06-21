@@ -159,7 +159,7 @@ render()
     {this.state.error ? <FlashMessage duration={900000} persistOnHover={true}>
       <h5 className={"alert alert-danger"}>{this.state.error}</h5>
       </FlashMessage> : ''}
-    <h3>New Post</h3>
+    <h3>New Post</h3><hr/>
     <TextField id="standard-basic" label="Caption ie. My new post" onChange={this.handleCaption} /><br/><br/>
     <TextField id="standard-basic" label="Hastags ie. fun, enjoy" onChange={this.handleHashtags} /><br/><br/>
     <div class="d-flex justify-content-center">
